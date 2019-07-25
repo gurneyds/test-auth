@@ -4,7 +4,7 @@ import createAuth0Client from "@auth0/auth0-spa-js";
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
-console.log("1111111111111111111111 auth wrapper");
+console.log("1111111111111111111111 auth wrapper before Auth0Provider");
 
 export const Auth0Context = React.createContext();
 export const useAuth0 = () => useContext(Auth0Context);
@@ -13,7 +13,7 @@ export const Auth0Provider = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   ...initOptions
 }) => {
-  console.log("2222222222222222222222 auth wrapper");
+  console.log("2222222222222222222222 auth wrapper inside Auth0Provider");
 
   const [isAuthenticated, setIsAuthenticated] = useState();
   const [user, setUser] = useState();
@@ -22,15 +22,19 @@ export const Auth0Provider = ({
   const [popupOpen, setPopupOpen] = useState(false);
 
   useEffect(() => {
-    console.log("3333333333333333333333 auth wrapper");
+    console.log("3333333333333333333333 auth wrapper inside useEffect()");
 
     const initAuth0 = async () => {
-      console.log("4444444444444444444444 auth wrapper");
+      console.log(
+        "4444444444444444444444 auth wrapper before createAuth0Client()"
+      );
 
       // This hangs if the user has authenticated previously and the page is refreshed
       const auth0FromHook = await createAuth0Client(initOptions);
 
-      console.log("5555555555555555555555 auth wrapper");
+      console.log(
+        "5555555555555555555555 auth wrapper after createAuth0Client()"
+      );
 
       setAuth0(auth0FromHook);
 
